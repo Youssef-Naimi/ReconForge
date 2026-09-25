@@ -53,11 +53,18 @@ def main():
     http_info = get_http_info(f"http://{args.target}")
 
     if http_info:
-        print(f"Url:    {http_info["url"]}")
-        print(f"Status:    {http_info["status_code"]}")
-        print(f"Title:    {http_info["title"]}")
+        print(f"    Url:    {http_info["url"]}")
+        print(f"    Status:    {http_info["status_code"]}")
+        print(f"    Title:    {http_info["title"]}")
+        print("    Server Information:")
 
-        print("\n   Headers:")
+        if http_info["server"]:
+            for header, value in http_info["server"].items():
+                print(f"        {header}: {value}")
+            else:
+                print("        None")
+
+        print("\n    Headers:")
 
         for name, value in http_info["headers"].items():
             print(f"        {name}: {value}")
