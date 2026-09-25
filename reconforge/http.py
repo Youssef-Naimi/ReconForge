@@ -14,12 +14,28 @@ SERVER_HEADERS = [
     "Via",
 ]
 
+SECURITY_HEADERS = [
+    "Strict-Transport-Security",
+    "Content-Security-Policy",
+    "X-Frame-Options",
+    "X-Content-Type-Options",
+    "Referrer-Policy",
+    "Permissions-Policy",
+]
+
+
+def get_security_headers(headers):
+    return {
+        header: headers.get(header)
+        for header in SECURITY_HEADERS
+        if headers.get(header) is not None
+    }
+
 
 def get_server_info(headers):
     return {
         header: headers.get(header)
         for header in SERVER_HEADERS
-        if headers.get(header) is not None
     }
 
 
@@ -47,6 +63,7 @@ def get_http_info(url):
             "status_code": response.status_code,
             "title": get_title(response.text),
             "server": get_server_info(response.headers),
+            "security_headers": get_security_headers(response.headers),
             "headers": response.headers
         }
     except requests.RequestException:

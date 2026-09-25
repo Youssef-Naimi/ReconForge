@@ -61,8 +61,16 @@ def main():
         if http_info["server"]:
             for header, value in http_info["server"].items():
                 print(f"        {header}: {value}")
+        else:
+            print("        None")
+
+        print("\n    Security Headers:")
+
+        for header, value in http_info["security_headers"].items():
+            if value:
+                print(f"        {header}: PRESENT")
             else:
-                print("        None")
+                print(f"        {header}: MISSING")
 
         print("\n    Headers:")
 
