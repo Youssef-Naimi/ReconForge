@@ -22,11 +22,17 @@ def main():
     for record_type, values in records.items():
         print(f"\n{record_type}:")
 
-        if values:
-            for value in values:
-                print(f"    {value}")
-        else:
+        if not values:
             print(f"    None")
+            continue
+        for value in values:
+            if record_type == "MX":
+                print(
+                    f"  {value['priority']}"
+                    f"  {value['server']}"
+                )
+            else:
+                print(f"    {value}")
 
 
 if __name__ == "__main__":

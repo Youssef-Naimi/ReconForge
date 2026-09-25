@@ -17,10 +17,19 @@ def get_records(domain):
         try:
             answers = dns.resolver.resolve(domain, record_type)
 
-            results[record_type] = [
-                answer.to_text()
-                for answer in answers
-            ]
+            if record_type == "MX":
+                results[record_type] = [
+                    {
+                        "priority":  answer.preference,
+                        "server":  answer.exchange.to_text()
+                    }
+                    for answer in answers
+                ]
+            else:
+                results[record_type] = [
+                    answer.to_text()
+                    for answer in answers
+                ]
         except (
             dns.resolver.NoAnswer,
             dns.resolver.NXDOMAIN,
