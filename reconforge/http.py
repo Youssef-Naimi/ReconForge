@@ -24,6 +24,17 @@ SECURITY_HEADERS = [
 ]
 
 
+def get_redirects(response):
+    return [
+        {
+            "url": redirect.url,
+            "status_code": redirect.status_code,
+            "location": redirect.headers.get("Location"),
+        }
+        for redirect in response.history
+    ]
+
+
 def get_security_headers(headers):
     return {
         header: headers.get(header)
@@ -64,6 +75,7 @@ def get_http_info(url):
             "title": get_title(response.text),
             "server": get_server_info(response.headers),
             "security_headers": get_security_headers(response.headers),
+            "redirects": get_redirects(response),
             "headers": response.headers
         }
     except requests.RequestException:

@@ -72,6 +72,18 @@ def main():
             else:
                 print(f"        {header}: MISSING")
 
+        print("\n    Redirects:")
+
+        if http_info["redirects"]:
+            for redirect in http_info["redirects"]:
+                print(
+                    f"        {redirect['status_code']} "
+                    f"{redirect['url']} -> "
+                    f"{redirect['location']}"
+                )
+        else:
+            print("        None")
+
         print("\n    Headers:")
 
         for name, value in http_info["headers"].items():
