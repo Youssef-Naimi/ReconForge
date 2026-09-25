@@ -1,5 +1,6 @@
 import argparse
 from reconforge.dns import get_records, reverse_lookup
+from reconforge.http import get_http_info
 
 
 def main():
@@ -20,32 +21,47 @@ def main():
     records = get_records(args.target)
 
     for record_type, values in records.items():
-        print(f"\n{record_type}:")
+        print(f"\n    {record_type}:")
 
         if not values:
-            print(f"    None")
+            print(f"        None")
             continue
         for value in values:
             if record_type == "MX":
                 print(
-                    f"  {value['priority']}"
-                    f"  {value['server']}"
+                    f"        {value['priority']}"
+                    f"        {value['server']}"
                 )
             else:
-                print(f"    {value}")
+                print(f"        {value}")
 
     print("\n[+] REVERSE DNS:")
 
     for ip_address in records["A"]:
         hostnames = reverse_lookup(ip_address)
 
-        print(f"\n{ip_address}:")
+        print(f"\n    {ip_address}:")
 
         if hostnames:
             for hostname in hostnames:
-                print(f"    {hostname}")
+                print(f"        {hostname}")
         else:
-            print("    None")
+            print("        None")
+
+    print("\n[+] HTTP:")
+
+    http_info = get_http_info(f"http://{args.target}")
+
+    if http_info:
+        print(f"Url:    {http_info["url"]}")
+        print(f"Status:    {http_info["status_code"]}")
+
+        print("\n   Headers:")
+
+        for name, value in http_info["headers"].items():
+            print(f"        {name}: {value}")
+    else:
+        print("Unable to connect")
 
 
 if __name__ == "__main__":
