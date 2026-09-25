@@ -55,6 +55,7 @@ def main():
     if http_info:
         print(f"Url:    {http_info["url"]}")
         print(f"Status:    {http_info["status_code"]}")
+        print(f"Title:    {http_info["title"]}")
 
         print("\n   Headers:")
 
