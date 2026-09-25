@@ -1,0 +1,18 @@
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Environment variables
+.env
+
+# IDE / editor
+.vscode/
+
+# Recon output
+output/*
+
+# OS files
+.DS_Store
