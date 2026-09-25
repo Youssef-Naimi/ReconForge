@@ -1,5 +1,5 @@
 import argparse
-from reconforge.dns import get_records
+from reconforge.dns import get_records, reverse_lookup
 
 
 def main():
@@ -33,6 +33,19 @@ def main():
                 )
             else:
                 print(f"    {value}")
+
+    print("\n[+] REVERSE DNS:")
+
+    for ip_address in records["A"]:
+        hostnames = reverse_lookup(ip_address)
+
+        print(f"\n{ip_address}:")
+
+        if hostnames:
+            for hostname in hostnames:
+                print(f"    {hostname}")
+        else:
+            print("    None")
 
 
 if __name__ == "__main__":
