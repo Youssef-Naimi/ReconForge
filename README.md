@@ -120,21 +120,18 @@ ReconForge/
                           │
                        main.py
                           │
-        ┌─────────────────┼─────────────────┐
-        │                 │                 │
-       DNS               HTTP             Ports
-        │                 │                 │
-   DNS queries      HTTP requests     TCP connections
-                                          │
-                              ┌───────────┼───────────┐
-                              │           │           │
-                           Banners      HTTP        HTTPS
-                                          │           │
-                                      requests       TLS
-        │
-   Subdomains
-        │
-   Concurrent DNS
+        ┌─────────────────┼─────────────────┼─────────────────────┐
+        │                 │                 │                     |
+       DNS               HTTP             Ports               Subdomains
+        │                 │                 │                     |
+   DNS queries      HTTP requests     TCP connections       Concurrent DNS
+                                            │
+                                ┌───────────┼───────────┐
+                                │           │           │
+                             Banners      HTTP        HTTPS
+                                            │           │
+                                        requests       TLS
+
 ```
 
 ## What I Learned Building It
