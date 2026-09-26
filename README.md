@@ -45,7 +45,7 @@ The goal is not to replace mature tools such as Nmap. It is a hands-on project f
 
 ## Tech Stack
 
-- **Python 3**
+- **Python 3.14.7**
 - **dnspython** — DNS resolution
 - **Requests** — HTTP reconnaissance
 - **socket** — TCP connections and banner grabbing
