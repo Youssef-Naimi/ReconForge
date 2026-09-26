@@ -1,6 +1,8 @@
 import argparse
 from reconforge.dns import get_records, reverse_lookup
 from reconforge.http import get_http_info
+from reconforge.ports import scan_ports
+from reconforge.subdomains import enumerate_subdomains
 
 
 def main():
@@ -90,6 +92,36 @@ def main():
             print(f"        {name}: {value}")
     else:
         print("Unable to connect")
+
+    print("\n[+] PORTS:")
+
+    port_results = scan_ports(args.target)
+
+    if port_results:
+        for result in port_results:
+            print(f"\n    {result['port']}/tcp - {result['state']}")
+
+            if result.get("response"):
+                print("        Response:")
+                print(f"            {result['response']}")
+            else:
+                print("    None")
+
+    print("\n[+] SUBDOMAINS:")
+
+    subdomains = enumerate_subdomains(args.target)
+
+    if subdomains:
+        for result in subdomains:
+            print(f"\n    {result['subdomain']}")
+
+            if result["addresses"]:
+                print(f"        Addresses: {', '.join(result['addresses'])}")
+
+            if result["cname"]:
+                print(f"        CNAME: {result['cname']}")
+    else:
+        print("    None")
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 import requests
 import re
 
-SERVER_HEADERS = [
+SERVER_HEADERS = [  # Common headers used by servers
     "Server",
     "X-Powered-By",
     "X-AspNet-Version",
@@ -14,7 +14,7 @@ SERVER_HEADERS = [
     "Via",
 ]
 
-SECURITY_HEADERS = [
+SECURITY_HEADERS = [  # common security headers
     "Strict-Transport-Security",
     "Content-Security-Policy",
     "X-Frame-Options",
@@ -39,7 +39,6 @@ def get_security_headers(headers):
     return {
         header: headers.get(header)
         for header in SECURITY_HEADERS
-        if headers.get(header) is not None
     }
 
 
@@ -47,10 +46,14 @@ def get_server_info(headers):
     return {
         header: headers.get(header)
         for header in SERVER_HEADERS
+        if headers.get(header) is not None
     }
 
 
 def get_title(html):
+    # basically this means look for a title tag,
+    # [^>]*: fill in the blank with anything that's not >, zero or more times
+    # (.*?): fill in with anything zero or more times but don't be greedy (stop at first closing tag)
     match = re.search(
         r"<title[^>]*>(.*?)</title>",
         html,
